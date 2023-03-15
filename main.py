@@ -1,5 +1,8 @@
 from transformers import pipeline
 
-classifier = pipeline("sentiment-analysis")
-ans = classifier(input("Enter your string: "))
-print("Mood is " + ans[0]['label'] + ' with probability = ' + str(round(ans[0]['score'] * 100, 2)) + "%")
+
+classifier = pipeline("fill-mask")
+ans = classifier(input("Enter your string with <mask>: "))
+
+for i in ans:
+    print(i['sequence'] + ' with probability = ' + str(round(i['score'] * 100, 2)) + "%")
