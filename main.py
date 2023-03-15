@@ -1,8 +1,13 @@
+from typing import Union
+from fastapi import FastAPI
 from transformers import pipeline
 
 
-classifier = pipeline("fill-mask")
-ans = classifier(input("Enter your string with <mask>: "))
+app = FastAPI()
 
-for i in ans:
-    print(i['sequence'] + ' with probability = ' + str(round(i['score'] * 100, 2)) + "%")
+
+@app.get("/{seq}")
+def word(seq: str):
+    classifier = pipeline("fill-mask")
+    ans = classifier(seq)
+    return ans
